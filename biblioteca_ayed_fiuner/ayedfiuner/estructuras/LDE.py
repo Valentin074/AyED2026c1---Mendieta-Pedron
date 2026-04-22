@@ -197,3 +197,41 @@ class ListaDobleEnlazada:
         
         if temp:
             self.__cabeza = temp.anterior
+            
+    def concatenar(self, otra_lista):
+        """
+        Recibe una lista y la une al final de la actual.
+        Precondición: otra_lista debe ser una instancia de ListaDobleEnlazada.
+        Postcondición: La lista original incorpora todos los elementos de otra_lista al final.
+        """
+        actual_otra = otra_lista.cabeza
+        while actual_otra:
+            self.agregar_al_final(actual_otra.dato)
+            actual_otra = actual_otra.siguiente
+
+    def __len__(self):
+        """
+        Devuelve la cantidad de elementos de la lista.
+        Postcondición: Retorna un entero mayor o igual a 0.
+        """
+        return self.__tamanio
+
+    def __add__(self, otra_lista):
+        """
+        Crea una nueva lista que es la suma de la actual y otra_lista.
+        Precondición: otra_lista debe ser una instancia de ListaDobleEnlazada.
+        Postcondición: Retorna una nueva lista sin modificar las originales.
+        """
+        nueva = self.copiar()
+        nueva.concatenar(otra_lista)
+        return nueva
+
+    def __iter__(self):
+        """
+        Permite que la lista sea iterable.
+        Postcondición: Produce un generador que recorre los datos desde la cabeza a la cola.
+        """
+        actual = self.__cabeza
+        while actual:
+            yield actual.dato
+            actual = actual.siguiente
