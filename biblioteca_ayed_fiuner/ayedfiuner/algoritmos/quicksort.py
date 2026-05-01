@@ -2,7 +2,7 @@ def ordenamiento_quicksort(lista):
     """
     Ordena una lista usando Quicksort.
     Pre: lista debe contener elementos comparables.
-    Post: Retorna una nueva lista ordenada. Complejidad promedio O(n log n).
+    Post: Retorna una nueva lista ordenada.
     """
     if not isinstance(lista, list):
         raise TypeError("Se esperaba una lista")

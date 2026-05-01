@@ -1,8 +1,8 @@
 def ordenamiento_radix(lista):
     """
     Ordena una lista de enteros usando Radix Sort.
-    Pre: lista de números enteros (ej. 5 dígitos).
-    Post: Retorna una nueva lista ordenada. Complejidad O(nk).
+    Pre: lista de números enteros.
+    Post: Retorna una nueva lista ordenada.
     """
     if not isinstance(lista, list):
         raise TypeError("Se esperaba una lista")
@@ -11,7 +11,6 @@ def ordenamiento_radix(lista):
     max_val = max(arr)
     exp = 1
     while max_val // exp > 0:
-        # Counting sort interno
         n = len(arr)
         salida = [0] * n
         conteo = [0] * 10
