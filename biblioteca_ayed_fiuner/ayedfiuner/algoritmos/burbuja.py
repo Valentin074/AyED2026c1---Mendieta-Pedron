@@ -1,4 +1,9 @@
 def ordenamiento_burbuja(lis):
+    """
+    Ordena una lista de elementos comparables utilizando el algoritmo de burbuja.
+    Pre: lis debe ser una lista con elementos comparables.
+    Post: La lista original es modificada y queda ordenada de menor a mayor.
+    """
     n = len(lis)
     for i in range(n):
         hubo_intercambio = False

@@ -45,7 +45,8 @@ def medir_tiempos():
     plt.title('Comparativa de Algoritmos - Problema 3')
     plt.legend()
     plt.grid(True)
+    plt.savefig('grafico_tiempos.png')
     plt.show()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     medir_tiempos()
