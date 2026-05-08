@@ -235,3 +235,6 @@ class ListaDobleEnlazada:
         while actual:
             yield actual.dato
             actual = actual.siguiente
+
+
+
