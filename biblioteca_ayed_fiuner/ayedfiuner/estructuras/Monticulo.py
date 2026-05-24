@@ -1,88 +1,75 @@
-class MonticuloBinario:
+# -*- coding: utf-8 -*-
+
+class MonticuloBinarioMinimo:
     def __init__(self):
         """
-        Postcondicion: Se crea una instancia de MonticuloBinario con una lista inicializada en [0] y tamaño 0.
+        Postcondición: Crea un montículo binario vacío con un elemento dummy en el índice 0.
         """
-        self.listaMonticulo = [0]
-        self.tamanoActual = 0
+        self.lista_monticulo = [0]
+        self.tamano_actual = 0
 
-    def infiltArriba(self, i):
+    def esta_vacio(self):
         """
-        Precondición: el dato a ingresar i es un índice válido dentro de listaMonticulo.
-        Postcondición: El elemento en la posición i se desplaza hacia arriba hasta que se restablece la propiedad de montículo.
+        Postcondición: Devuelve True si el montículo no tiene elementos, False en caso contrario.
+        """
+        return self.tamano_actual == 0
+
+    def infilt_arriba(self, i):
+        """
+        Precondición: i es un índice válido dentro del montículo (1 <= i <= tamano_actual).
+        Postcondición: Desplaza el elemento en el índice i hacia arriba hasta restaurar la propiedad de montículo mínimo.
         """
         while i // 2 > 0:
-          if self.listaMonticulo[i] < self.listaMonticulo[i // 2]:
-             tmp = self.listaMonticulo[i // 2]
-             self.listaMonticulo[i // 2] = self.listaMonticulo[i]
-             self.listaMonticulo[i] = tmp
-          i = i // 2
+            if self.lista_monticulo[i] < self.lista_monticulo[i // 2]:
+                self.lista_monticulo[i // 2], self.lista_monticulo[i] = self.lista_monticulo[i], self.lista_monticulo[i // 2]
+            i = i // 2
 
     def insertar(self, k):
         """
-        Precondición: k es un elemento comparable con los demás elementos del montículo.
-        Postcondición: k se añade al montículo y se mantiene la propiedad de montículo. tamanoActual aumenta en 1.
+        Precondición: k es un elemento comparable con los que ya existen en el montículo.
+        Postcondición: Agrega k al montículo manteniendo la propiedad de orden.
         """
-        self.listaMonticulo.append(k)
-        self.tamanoActual = self.tamanoActual + 1
-        self.infiltArriba(self.tamanoActual)
+        if k is None:
+            raise ValueError("No se pueden insertar elementos nulos (None).")
+        self.lista_monticulo.append(k)
+        self.tamano_actual += 1
+        self.infilt_arriba(self.tamano_actual)
 
-    def infiltAbajo(self, i):
+    def infilt_abajo(self, i):
         """
-        Precondición: i es un índice válido dentro de listaMonticulo.
-        Postcondición: El elemento en la posición i se desplaza hacia abajo hasta que se restablece la propiedad de montículo.
+        Precondición: i es un índice válido dentro del montículo.
+        Postcondición: Desplaza el elemento en el índice i hacia abajo hasta restaurar la propiedad de montículo mínimo.
         """
-        while (i * 2) <= self.tamanoActual:
-            hm = self.hijoMin(i)
-            if self.listaMonticulo[i] > self.listaMonticulo[hm]:
-                tmp = self.listaMonticulo[i]
-                self.listaMonticulo[i] = self.listaMonticulo[hm]
-                self.listaMonticulo[hm] = tmp
+        while (i * 2) <= self.tamano_actual:
+            hm = self.hijo_min(i)
+            if self.lista_monticulo[i] > self.lista_monticulo[hm]:
+                self.lista_monticulo[i], self.lista_monticulo[hm] = self.lista_monticulo[hm], self.lista_monticulo[i]
             i = hm
 
-    def hijoMin(self, i):
+    def hijo_min(self, i):
         """
-        Precondición: El nodo en el índice i debe tener al menos un hijo.
-        Postcondición: Devuelve el índice del hijo con el valor más bajo.
+        Precondición: El nodo en la posición i debe tener al menos un hijo.
+        Postcondición: Devuelve el índice del hijo con el menor valor.
         """
-        if i * 2 + 1 > self.tamanoActual:
+        if i * 2 + 1 > self.tamano_actual:
             return i * 2
         else:
-            if self.listaMonticulo[i*2] < self.listaMonticulo[i*2+1]:
+            if self.lista_monticulo[i * 2] < self.lista_monticulo[i * 2 + 1]:
                 return i * 2
             else:
                 return i * 2 + 1
 
-    def eliminarMin(self):
+    def eliminar_min(self):
         """
         Precondición: El montículo no debe estar vacío.
-        Postcondición: Se elimina y devuelve el elemento mínimo. El montículo se reestructura para mantener su propiedad.
+        Postcondición: Remueve y devuelve el elemento mínimo del montículo.
         """
-        valorSacado = self.listaMonticulo[1]
-        self.listaMonticulo[1] = self.listaMonticulo[self.tamanoActual]
-        self.tamanoActual = self.tamanoActual - 1
-        self.listaMonticulo.pop()
-        self.infiltAbajo(1)
-        return valorSacado
-
-    def construirMonticulo(self, unaLista):
-        """
-        Precondición: unaLista es una lista de elementos comparables.
-        Postcondición: El atributo listaMonticulo se inicializa con los elementos de unaLista organizados como un montículo binario.
-        """
-        i = len(unaLista) // 2
-        self.tamanoActual = len(unaLista)
-        self.listaMonticulo = [0] + unaLista[:]
-        while (i > 0):
-            self.infiltAbajo(i)
-            i = i - 1
-
-# Ejemplo de ejecución
-miMonticulo = MonticuloBinario()
-miMonticulo.construirMonticulo([9,5,6,2,3])
-
-print(miMonticulo.eliminarMin())
-print(miMonticulo.eliminarMin())
-print(miMonticulo.eliminarMin())
-print(miMonticulo.eliminarMin())
-print(miMonticulo.eliminarMin())
+        if self.esta_vacio():
+            raise IndexError("No se puede eliminar de un montículo vacío.")
+        valor_sacado = self.lista_monticulo[1]
+        self.lista_monticulo[1] = self.lista_monticulo[self.tamano_actual]
+        self.tamano_actual -= 1
+        self.lista_monticulo.pop()
+        if self.tamano_actual > 0:
+            self.infilt_abajo(1)
+        return valor_sacado
