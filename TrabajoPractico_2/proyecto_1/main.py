@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Trabajo Práctico N°2 - Ejercicio 1: Sala de Emergencias
-Aplicación Principal
-"""
 
 import time
 import datetime
