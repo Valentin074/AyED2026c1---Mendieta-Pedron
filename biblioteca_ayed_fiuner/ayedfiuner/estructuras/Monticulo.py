@@ -19,6 +19,9 @@ class MonticuloBinarioMinimo:
         Precondición: i es un índice válido dentro del montículo (1 <= i <= tamano_actual).
         Postcondición: Desplaza el elemento en el índice i hacia arriba hasta restaurar la propiedad de montículo mínimo.
         """
+        if not (1 <= i <= self.tamano_actual):
+            raise IndexError("Índice fuera de rango para infiltración hacia arriba.")
+
         while i // 2 > 0:
             if self.lista_monticulo[i] < self.lista_monticulo[i // 2]:
                 self.lista_monticulo[i // 2], self.lista_monticulo[i] = self.lista_monticulo[i], self.lista_monticulo[i // 2]
@@ -37,9 +40,12 @@ class MonticuloBinarioMinimo:
 
     def infilt_abajo(self, i):
         """
-        Precondición: i es un índice válido dentro del montículo.
+        Precondición: i es un índice válido dentro del montículo (1 <= i <= tamano_actual).
         Postcondición: Desplaza el elemento en el índice i hacia abajo hasta restaurar la propiedad de montículo mínimo.
         """
+        if not (1 <= i <= self.tamano_actual):
+            raise IndexError("Índice fuera de rango para infiltración hacia abajo.")
+
         while (i * 2) <= self.tamano_actual:
             hm = self.hijo_min(i)
             if self.lista_monticulo[i] > self.lista_monticulo[hm]:
@@ -48,9 +54,12 @@ class MonticuloBinarioMinimo:
 
     def hijo_min(self, i):
         """
-        Precondición: El nodo en la posición i debe tener al menos un hijo.
+        Precondición: El nodo en la posición i debe tener al menos un hijo y ser un índice válido.
         Postcondición: Devuelve el índice del hijo con el menor valor.
         """
+        if not (1 <= i <= self.tamano_actual):
+            raise IndexError("Índice fuera de rango para buscar hijo mínimo.")
+
         if i * 2 + 1 > self.tamano_actual:
             return i * 2
         else:

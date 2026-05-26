@@ -1,49 +1,59 @@
 # -*- coding: utf-8 -*-
 """
-Sala de emergencias
+Trabajo Práctico N°2 - Ejercicio 1: Sala de Emergencias
+Aplicación Principal
 """
 
 import time
 import datetime
-import modules.paciente as pac
 import random
+import sys
+import os
 
-n = 20  # cantidad de ciclos de simulación
+directorio_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+if directorio_raiz not in sys.path:
+    sys.path.insert(0, directorio_raiz)
 
-cola_de_espera = list()
+from biblioteca_ayed_fiuner.ayedfiuner.estructuras.ColaPrioridad import ColaPrioridad
+import modules.paciente as pac
 
-# Ciclo que gestiona la simulación
-for i in range(n):
-    # Fecha y hora de entrada de un paciente
-    ahora = datetime.datetime.now()
-    fecha_y_hora = ahora.strftime('%d/%m/%Y %H:%M:%S')
-    print('-*-'*15)
-    print('\n', fecha_y_hora, '\n')
+def ejecutar_simulacion():
+    n = 20  
+    cola_de_espera = ColaPrioridad()
 
-    # Se crea un paciente un paciente por segundo
-    # La criticidad del paciente es aleatoria
-    paciente = pac.Paciente()
-    cola_de_espera.append(paciente)
+    for i in range(n):
+        ahora = datetime.datetime.now()
+        fecha_y_hora = ahora.strftime('%d/%m/%Y %H:%M:%S')
+        print('-*-'*15)
+        print('\n', fecha_y_hora, '\n')
 
-    # Atención de paciente en este ciclo: en el 50% de los casos
-    if random.random() < 0.5:
-        # se atiende paciente que se encuentra al frente de la cola
-        paciente_atendido = cola_de_espera.pop(0)
-        print('*'*40)
-        print('Se atiende el paciente:', paciente_atendido)
-        print('*'*40)
-    else:
-        # se continúa atendiendo paciente de ciclo anterior
-        pass
-    
-    print()
+        paciente = pac.Paciente()
+        
+        cola_de_espera.encolar(paciente, prioridad=paciente.get_riesgo())
+        print(f"Ingresa a sala de espera: {paciente}")
 
-    # Se muestran los pacientes restantes en la cola de espera
-    print('Pacientes que faltan atenderse:', len(cola_de_espera))
-    for paciente in cola_de_espera:
-        print('\t', paciente)
-    
-    print()
-    print('-*-'*15)
-    
-    time.sleep(1)
+        if random.random() < 0.5:
+            if not cola_de_espera.esta_vacia():
+                paciente_atendido = cola_de_espera.desencolar()
+                print('*'*40)
+                print('Se atiende el paciente:', paciente_atendido)
+                print('*'*40)
+            else:
+                print('No hay pacientes en la cola de espera.')
+        else:
+            print('Los médicos se encuentran ocupados en el quirófano...')
+        
+        print()
+
+        print('Pacientes que faltan atenderse:', cola_de_espera.tamano)
+        
+        for p in cola_de_espera.obtener_elementos():
+            print('\t', p)
+        
+        print()
+        print('-*-'*15)
+        
+        time.sleep(1)
+
+if __name__ == '__main__':
+    ejecutar_simulacion()

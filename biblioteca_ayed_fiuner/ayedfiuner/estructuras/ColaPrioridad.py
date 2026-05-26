@@ -7,6 +7,7 @@ class ColaPrioridad:
         Postcondición: Inicializa una cola de prioridad genérica vacía basada en un montículo mínimo.
         """
         self._contenedor = MonticuloBinarioMinimo()
+        self._contador_ingreso = 0  
 
     def esta_vacia(self):
         """
@@ -21,22 +22,29 @@ class ColaPrioridad:
         """
         if self.esta_vacia():
             raise IndexError("Error: Intento de desencolar en una cola de prioridad vacía.")
-        return self._contenedor.eliminar_min()
+        
+        prioridad, orden, elemento = self._contenedor.eliminar_min()
+        return elemento
 
-    def encolar(self, elemento):
+    def encolar(self, elemento, prioridad):
         """
-        Precondición: El elemento debe ser comparable.
-        Postcondición: Inserta el elemento en la cola de prioridad.
+        Precondición: El elemento no debe ser nulo y la prioridad debe ser comparable.
+        Postcondición: Inserta el elemento en la cola utilizando la prioridad indicada. 
+                       Ante igual prioridad, se preserva el orden de llegada.
         """
         if elemento is None:
             raise ValueError("El elemento no puede ser nulo.")
-        self._contenedor.insertar(elemento)
+        if prioridad is None:
+            raise ValueError("La prioridad no puede ser nula.")
+        
+        self._contador_ingreso += 1
+        self._contenedor.insertar((prioridad, self._contador_ingreso, elemento))
 
-    def insertar(self, elemento):
+    def insertar(self, elemento, prioridad):
         """
         Método alternativo para compatibilidad. Llama a encolar.
         """
-        self.encolar(elemento)
+        self.encolar(elemento, prioridad)
 
     @property
     def tamano(self):
@@ -44,4 +52,11 @@ class ColaPrioridad:
         Postcondición: Retorna la cantidad actual de elementos en la cola.
         """
         return self._contenedor.tamano_actual
+
+    def obtener_elementos(self):
+        """
+        Postcondición: Devuelve una lista con los elementos actualmente encolados 
+                       (manteniendo el formato interno) para visualización lícita.
+        """
+        return [item[2] for item in self._contenedor.lista_monticulo[1:]]
 
