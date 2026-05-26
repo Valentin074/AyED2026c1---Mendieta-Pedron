@@ -10,30 +10,35 @@ from biblioteca_ayed_fiuner.ayedfiuner.estructuras.Grafo import GrafoPesado
 
 def cargar_red_desde_texto():
     """
-    Postcondición: Instancia un grafo pesado y carga las 21 aldeas vecinas leyendo el formato de tuplas.
+    Postcondición: Instancia un grafo pesado y carga las aldeas y conexiones reales del archivo de texto.
     """
     g = GrafoPesado()
     
     aldeas = [
-        "Peligros", "Alfacar", "Vizmar", "Calicasas", "Cogollos", "Guevejar", 
-        "Nivar", "Pulianas", "Maracena", "Jun", "Granada", "Armilla", 
-        "Churriana", "Gabia", "Cullar", "Ogijares", "Gojar", "Dilar", 
-        "Otura", "Alhendin", "Padul"
+        "Lomaseca", "Pepino", "Los Infiernos", "El Cerrillo", "Peligros", 
+        "Malcocinado", "Hortijos", "Humilladero", "Villaviciosa", "Cebolla", 
+        "Torralta", "Silla", "La Pera", "Espera", "Elciego", "Diosleguarde", 
+        "Melón", "Consuegra", "Aceituna", "La Aparecida", "Pancrudo", "Buenas Noches"
     ]
     
     for aldea in aldeas:
         g.agregar_vertice(aldea)
         
     conexiones = [
-        ("Peligros", "Alfacar", 5), ("Peligros", "Pulianas", 3), ("Peligros", "Calicasas", 7),
-        ("Alfacar", "Vizmar", 4), ("Alfacar", "Jun", 6), ("Vizmar", "Cogollos", 8),
-        ("Calicasas", "Cogollos", 6), ("Pulianas", "Guevejar", 4), ("Pulianas", "Maracena", 3),
-        ("Guevejar", "Nivar", 3), ("Maracena", "Jun", 2), ("Maracena", "Granada", 4),
-        ("Maracena", "Armilla", 5), ("Granada", "Jun", 3), ("Granada", "Armilla", 5),
-        ("Granada", "Cullar", 6), ("Armilla", "Churriana", 4), ("Armilla", "Ogijares", 3),
-        ("Churriana", "Gabia", 3), ("Gabia", "Alhendin", 5), ("Cullar", "Ogijares", 2),
-        ("Ogijares", "Gojar", 4), ("Ogijares", "Otura", 7), ("Gojar", "Dilar", 5),
-        ("Dilar", "Otura", 3), ("Otura", "Alhendin", 4), ("Alhendin", "Padul", 6)
+        ("Lomaseca", "Pepino", 3), ("Lomaseca", "Los Infiernos", 2), 
+        ("Lomaseca", "El Cerrillo", 5), ("Lomaseca", "Peligros", 7),
+        ("El Cerrillo", "Malcocinado", 6), ("Hortijos", "Humilladero", 5), 
+        ("Hortijos", "Villaviciosa", 10), ("Hortijos", "Cebolla", 20),
+        ("Torralta", "Silla", 4), ("Torralta", "Villaviciosa", 8), 
+        ("Torralta", "Humilladero", 9), ("La Pera", "Los Infiernos", 3), 
+        ("La Pera", "Pepino", 4), ("La Pera", "Espera", 3),
+        ("Elciego", "Diosleguarde", 7), ("Elciego", "Melón", 3),
+        ("Consuegra", "Malcocinado", 1), ("Malcocinado", "Aceituna", 2), 
+        ("Malcocinado", "Peligros", 8), ("Malcocinado", "Diosleguarde", 9),
+        ("Peligros", "La Aparecida", 5), ("Silla", "Pancrudo", 6), 
+        ("Silla", "La Aparecida", 5), ("Cebolla", "Buenas Noches", 2), 
+        ("Cebolla", "Pancrudo", 2), ("La Aparecida", "Pancrudo", 8), 
+        ("La Aparecida", "Buenas Noches", 3), ("Melón", "Buenas Noches", 20)
     ]
     
     for u, v, peso in conexiones:
