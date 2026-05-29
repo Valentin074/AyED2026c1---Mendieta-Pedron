@@ -9,7 +9,7 @@ class GrafoPesado:
 
     def agregar_vertice(self, vertice):
         """
-        Precondición: El vértice no debe existir previamente en el grafo.
+        Precondición: El vértice no debe existir previamente en el grafo y no debe ser nulo.
         Postcondición: Añade el vértice al grafo con una lista de adyacencia vacía.
         """
         if vertice is None:
@@ -41,6 +41,7 @@ class GrafoPesado:
 
     def obtener_vertices(self):
         """
+        Precondición: Ninguna.
         Postcondición: Retorna una lista con todos los vértices del grafo.
         """
         return list(self.vertices.keys())
