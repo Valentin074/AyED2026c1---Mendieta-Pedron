@@ -9,7 +9,6 @@ import time
 import datetime
 import random
 
-
 directorio_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../'))
 if directorio_raiz not in sys.path:
     sys.path.insert(0, directorio_raiz)
@@ -29,19 +28,16 @@ for i in range(n):
     print('-*-'*15)
     print('\n', fecha_y_hora, '\n')
 
-   
     paciente = pac.Paciente()
     contador_ingreso += 1
     
-    
-    cola_de_espera.encolar((paciente.get_riesgo(), contador_ingreso, paciente))
+    prioridad_paciente = (paciente.get_riesgo(), contador_ingreso)
+    cola_de_espera.encolar(paciente, prioridad=prioridad_paciente)
     print(f"Ingresa a sala de espera: {paciente}")
 
-    
     if random.random() < 0.5:
         if not cola_de_espera.esta_vacia():
-            tupla_atendida = cola_de_espera.desencolar()
-            paciente_atendido = tupla_atendida[2] 
+            paciente_atendido = cola_de_espera.desencolar()
             print('*'*40)
             print('Se atiende el paciente:', paciente_atendido)
             print('*'*40)
@@ -52,10 +48,9 @@ for i in range(n):
     
     print()
 
-    
     print('Pacientes que faltan atenderse:', cola_de_espera.tamano)
-    for elemento in cola_de_espera._contenedor.lista_monticulo[1:]:
-        print('\t', elemento[2])
+    for p in cola_de_espera.obtener_elementos():
+        print('\t', p)
     
     print()
     print('-*-'*15)

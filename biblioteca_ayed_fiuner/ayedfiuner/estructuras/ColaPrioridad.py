@@ -7,7 +7,6 @@ class ColaPrioridad:
         Postcondición: Inicializa una cola de prioridad genérica vacía basada en un montículo mínimo.
         """
         self._contenedor = MonticuloBinarioMinimo()
-        self._contador_ingreso = 0  
 
     def esta_vacia(self):
         """
@@ -23,22 +22,20 @@ class ColaPrioridad:
         if self.esta_vacia():
             raise IndexError("Error: Intento de desencolar en una cola de prioridad vacía.")
         
-        prioridad, orden, elemento = self._contenedor.eliminar_min()
+        prioridad, elemento = self._contenedor.eliminar_min()
         return elemento
 
     def encolar(self, elemento, prioridad):
         """
         Precondición: El elemento no debe ser nulo y la prioridad debe ser comparable.
         Postcondición: Inserta el elemento en la cola utilizando la prioridad indicada. 
-                       Ante igual prioridad, se preserva el orden de llegada.
         """
         if elemento is None:
             raise ValueError("El elemento no puede ser nulo.")
         if prioridad is None:
             raise ValueError("La prioridad no puede ser nula.")
         
-        self._contador_ingreso += 1
-        self._contenedor.insertar((prioridad, self._contador_ingreso, elemento))
+        self._contenedor.insertar((prioridad, elemento))
 
     def insertar(self, elemento, prioridad):
         """
@@ -58,5 +55,5 @@ class ColaPrioridad:
         Postcondición: Devuelve una lista con los elementos actualmente encolados 
                        (manteniendo el formato interno) para visualización lícita.
         """
-        return [item[2] for item in self._contenedor.lista_monticulo[1:]]
+        return [item[1] for item in self._contenedor.lista_monticulo[1:]]
 

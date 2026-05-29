@@ -16,6 +16,7 @@ import modules.paciente as pac
 def ejecutar_simulacion():
     n = 20  
     cola_de_espera = ColaPrioridad()
+    contador_ingreso = 0
 
     for i in range(n):
         ahora = datetime.datetime.now()
@@ -24,8 +25,11 @@ def ejecutar_simulacion():
         print('\n', fecha_y_hora, '\n')
 
         paciente = pac.Paciente()
+        contador_ingreso += 1
         
-        cola_de_espera.encolar(paciente, prioridad=paciente.get_riesgo())
+        prioridad_paciente = (paciente.get_riesgo(), contador_ingreso)
+        
+        cola_de_espera.encolar(paciente, prioridad=prioridad_paciente)
         print(f"Ingresa a sala de espera: {paciente}")
 
         if random.random() < 0.5:
