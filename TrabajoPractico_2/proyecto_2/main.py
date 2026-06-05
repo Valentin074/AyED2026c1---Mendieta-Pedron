@@ -12,8 +12,10 @@ def simular_base_de_datos_real():
     print(" BASE DE DATOS DE TEMPERATURAS - KEVIN KELVIN (PROBLEMA 2)")
     print("=" * 65)
 
+    
     db = Temperaturas_DB()
-    ruta_muestras = r"c:\Users\valen\OneDrive\Documentos\AyED2026c1---Mendieta-Pedron\TrabajoPractico_2\muestras.txt"
+    ruta_muestras = "./data/muestras.txt"
+    #ruta_muestras = r"C:\Users\alumno\Documents\AyED2026c1---Mendieta-Pedron\TrabajoPractico_2\muestras.txt"
     
     print(f"\n[+] Leyendo archivo real desde: {ruta_muestras}")
     try:
