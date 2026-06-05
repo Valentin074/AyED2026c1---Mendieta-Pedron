@@ -24,7 +24,7 @@ def ejecutar_simulacion():
         print('-*-'*15)
         print('\n', fecha_y_hora, '\n')
 
-        paciente = pac.Paciente()
+        paciente = pac.Paciente(contador_ingreso)
         contador_ingreso += 1
         
         prioridad_paciente = (paciente.get_riesgo(), contador_ingreso)
