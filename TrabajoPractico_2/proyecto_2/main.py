@@ -14,7 +14,7 @@ def simular_base_de_datos_real():
 
     
     db = Temperaturas_DB()
-    ruta_muestras = "./data/muestras.txt"
+    ruta_muestras = os.path.join(os.path.dirname(__file__), 'data', 'muestras.txt')
     #ruta_muestras = r"C:\Users\alumno\Documents\AyED2026c1---Mendieta-Pedron\TrabajoPractico_2\muestras.txt"
     
     print(f"\n[+] Leyendo archivo real desde: {ruta_muestras}")
