@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class GrafoPesado:
+
     def __init__(self):
         """
         Postcondición: Inicializa un grafo pesado vacío utilizando un diccionario de adyacencia.
@@ -26,7 +27,6 @@ class GrafoPesado:
             raise ValueError("Uno o ambos vértices no existen en el grafo.")
         if peso <= 0:
             raise ValueError("El peso debe ser un número mayor a cero.")
-        
         self.vertices[u][v] = peso
         self.vertices[v][u] = peso
 

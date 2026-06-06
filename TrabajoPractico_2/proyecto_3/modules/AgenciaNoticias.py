@@ -10,40 +10,41 @@ from biblioteca_ayed_fiuner.ayedfiuner.estructuras.Grafo import GrafoPesado
 
 def cargar_red_desde_texto():
     """
-    Postcondición: Instancia un grafo pesado y carga las aldeas y conexiones reales del archivo de texto.
+    Postcondición: Instancia un grafo pesado y carga las aldeas y conexiones 
+                   reales leyendo dinámicamente desde el archivo 'aldeas.txt'.
     """
     g = GrafoPesado()
     
-    aldeas = [
-        "Lomaseca", "Pepino", "Los Infiernos", "El Cerrillo", "Peligros", 
-        "Malcocinado", "Hortijos", "Humilladero", "Villaviciosa", "Cebolla", 
-        "Torralta", "Silla", "La Pera", "Espera", "Elciego", "Diosleguarde", 
-        "Melón", "Consuegra", "Aceituna", "La Aparecida", "Pancrudo", "Buenas Noches"
-    ]
+    ruta_archivo = os.path.join(os.path.dirname(__file__), '../data/aldeas.txt')
     
-    for aldea in aldeas:
-        g.agregar_vertice(aldea)
-        
-    conexiones = [
-        ("Lomaseca", "Pepino", 3), ("Lomaseca", "Los Infiernos", 2), 
-        ("Lomaseca", "El Cerrillo", 5), ("Lomaseca", "Peligros", 7),
-        ("El Cerrillo", "Malcocinado", 6), ("Hortijos", "Humilladero", 5), 
-        ("Hortijos", "Villaviciosa", 10), ("Hortijos", "Cebolla", 20),
-        ("Torralta", "Silla", 4), ("Torralta", "Villaviciosa", 8), 
-        ("Torralta", "Humilladero", 9), ("La Pera", "Los Infiernos", 3), 
-        ("La Pera", "Pepino", 4), ("La Pera", "Espera", 3),
-        ("Elciego", "Diosleguarde", 7), ("Elciego", "Melón", 3),
-        ("Consuegra", "Malcocinado", 1), ("Malcocinado", "Aceituna", 2), 
-        ("Malcocinado", "Peligros", 8), ("Malcocinado", "Diosleguarde", 9),
-        ("Peligros", "La Aparecida", 5), ("Silla", "Pancrudo", 6), 
-        ("Silla", "La Aparecida", 5), ("Cebolla", "Buenas Noches", 2), 
-        ("Cebolla", "Pancrudo", 2), ("La Aparecida", "Pancrudo", 8), 
-        ("La Aparecida", "Buenas Noches", 3), ("Melón", "Buenas Noches", 20)
-    ]
-    
-    for u, v, peso in conexiones:
-        g.agregar_arista(u, v, peso)
-        
+    if not os.path.exists(ruta_archivo):
+        raise FileNotFoundError(f"No se encontró el archivo de datos en: {ruta_archivo}")
+
+    with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+        for nro_linea, linea in enumerate(archivo, 1):
+            linea_limpia = linea.strip()
+            
+            if not linea_limpia or linea_limpia == '"aldeas.txt"':
+                continue
+                
+            partes = [p.strip() for p in linea_limpia.split(',')]
+            
+            if len(partes) == 3:
+                u, v, peso_str = partes
+                try:
+                    peso = int(peso_str)
+                    
+                    g.agregar_vertice(u)
+                    g.agregar_vertice(v)
+                    g.agregar_arista(u, v, peso)
+                except ValueError:
+                    print(f"Advertencia: Línea {nro_linea} ignorada por peso inválido: '{linea_limpia}'")
+            
+            elif len(partes) == 1:
+                aldea_aislada = partes[0]
+                if aldea_aislada:
+                    g.agregar_vertice(aldea_aislada)
+                    
     return g
 
 def calcular_transmision_optima(grafo, inicio="Peligros"):
